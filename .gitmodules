@@ -1,0 +1,6 @@
+[submodule "deps/scrypt"]
+	path = deps/scrypt
+	url = git@github.com:indutny/scrypt
+[submodule "deps/derivepass"]
+	path = deps/derivepass
+	url = git@github.com:indutny/derivepass
