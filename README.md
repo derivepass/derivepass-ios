@@ -1,4 +1,4 @@
-# Derivepass
+# DerivePass
 
 iOS app for [DerivePass][0] password derivation utility.
 
