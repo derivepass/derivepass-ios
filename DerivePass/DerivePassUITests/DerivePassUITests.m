@@ -8,8 +8,8 @@
 
 #import <XCTest/XCTest.h>
 
-#include "scrypt.h"
 #include "derivepass.h"
+#include "scrypt.h"
 
 static const int kApplicationCount = 3;
 
@@ -53,12 +53,13 @@ static const int kApplicationCount = 3;
 
   XCUIElementQuery* tablesQuery = app.tables;
   XCUIElement* elem;
-  
+
   NSPredicate* exists = [NSPredicate predicateWithFormat:@"exists == 1"];
   // Create several applications with different domain name
   for (int i = 0; i < kApplicationCount; i++) {
-    XCUIElement* addButton = app.navigationBars[@"Applications"].buttons[@"Add"];
-    
+    XCUIElement* addButton =
+        app.navigationBars[@"Applications"].buttons[@"Add"];
+
     [self expectationForPredicate:exists
               evaluatedWithObject:addButton
                           handler:nil];

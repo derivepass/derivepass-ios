@@ -127,7 +127,7 @@ static NSString* const kConfirmPlaceholder = @"Confirm Password";
   __block NSString* origin = self.masterPassword.text;
 
   // Cached already
-  if (masterAESOrigin_ == origin) {
+  if ([masterAESOrigin_ isEqualToString:origin]) {
     if (completion != nil) completion(masterAES_, masterMAC_);
     return;
   }
