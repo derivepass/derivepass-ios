@@ -1,15 +1,18 @@
 {
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "DEA11D7C3D3155342658D060821AAE5F6C87A90B",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "D2F72E3CB8C2A27664D5C88A618FEF9D74635285" : 9223372036854775807,
-    "24283DE050224A7EA38CBC3CF8CFFBEA42F80BBF" : 9223372036854775807
+    "24283DE050224A7EA38CBC3CF8CFFBEA42F80BBF" : 9223372036854775807,
+    "DEA11D7C3D3155342658D060821AAE5F6C87A90B" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "63EA0B9D-BC74-48CB-8BC2-A8B487063D83",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "D2F72E3CB8C2A27664D5C88A618FEF9D74635285" : "derivepass-ios\/deps\/scrypt\/",
-    "24283DE050224A7EA38CBC3CF8CFFBEA42F80BBF" : "derivepass-ios\/deps\/derivepass\/"
+    "24283DE050224A7EA38CBC3CF8CFFBEA42F80BBF" : "derivepass-ios\/deps\/derivepass\/",
+    "DEA11D7C3D3155342658D060821AAE5F6C87A90B" : "derivepass-ios\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "DerivePass",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -24,6 +27,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:indutny\/scrypt",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D2F72E3CB8C2A27664D5C88A618FEF9D74635285"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:indutny\/derivepass-ios",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DEA11D7C3D3155342658D060821AAE5F6C87A90B"
     }
   ]
 }
