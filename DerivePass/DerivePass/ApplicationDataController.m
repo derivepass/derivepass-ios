@@ -11,14 +11,18 @@
 #import "ApplicationDataController.h"
 #import "AESCryptor.h"
 
+#ifdef DERIVEPASS_HAS_CLOUDKIT
 #import <CloudKit/CloudKit.h>
+#endif  // DERIVEPASS_HAS_CLOUDKIT
 
 #include <dispatch/dispatch.h>
 
 @interface ApplicationDataController ()
 
 @property(strong) NSManagedObjectContext* managedObjectContext;
+#ifdef DERIVEPASS_HAS_CLOUDKIT
 @property(strong) CKDatabase* db;
+#endif  // DERIVEPASS_HAS_CLOUDKIT
 
 @property(strong) NSMutableArray<Application*>* internalList;
 
@@ -38,7 +42,9 @@
   self.cryptor = [[AESCryptor alloc] init];
 
   [self initCoreData];
+#ifdef DERIVEPASS_HAS_CLOUDKIT
   [self initCloudKit];
+#endif  // DERIVEPASS_HAS_CLOUDKIT
 
   return self;
 }
@@ -93,6 +99,7 @@
 }
 
 
+#ifdef DERIVEPASS_HAS_CLOUDKIT
 - (void)initCloudKit {
   self.db = [[CKContainer defaultContainer] privateCloudDatabase];
 
@@ -239,6 +246,7 @@
         });
       }];
 }
+#endif  // DERIVEPASS_HAS_CLOUDKIT
 
 
 - (NSMutableArray<Application*>*)applications {
@@ -281,9 +289,11 @@
 
 - (void)save {
   [self sort];
+#ifdef DERIVEPASS_HAS_CLOUDKIT
   for (Application* obj in self.internalList) {
     [self uploadItemToCloud:obj];
   }
+#endif  // DERIVEPASS_HAS_CLOUDKIT
   [self coreDataSave];
 }
 

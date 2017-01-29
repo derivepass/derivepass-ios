@@ -11,6 +11,8 @@
 #import <CoreData/CoreData.h>
 #import <Foundation/Foundation.h>
 
+#define DERIVEPASS_HAS_CLOUDKIT 1
+
 #import "Application+CoreDataProperties.h"
 
 @protocol ApplicationDataControllerDelegate
