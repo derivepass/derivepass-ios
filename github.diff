@@ -95,15 +95,13 @@ index d230c8f..f5fbea2 100644
  #import "Application+CoreDataProperties.h"
  
 diff --git a/DerivePass/DerivePass/DerivePass.entitlements b/DerivePass/DerivePass/DerivePass.entitlements
-index 3729903..6631ffa 100644
+index 3729903..3fb05ea 100644
 --- a/DerivePass/DerivePass/DerivePass.entitlements
 +++ b/DerivePass/DerivePass/DerivePass.entitlements
-@@ -2,17 +2,5 @@
- <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
- <plist version="1.0">
+@@ -4,15 +4,5 @@
  <dict>
--	<key>com.apple.developer.default-data-protection</key>
--	<string>NSFileProtectionComplete</string>
+ 	<key>com.apple.developer.default-data-protection</key>
+ 	<string>NSFileProtectionComplete</string>
 -	<key>com.apple.developer.icloud-container-identifiers</key>
 -	<array>
 -		<string>iCloud.$(CFBundleIdentifier)</string>
