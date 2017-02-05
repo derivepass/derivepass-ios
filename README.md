@@ -6,6 +6,7 @@ iOS app for [DerivePass][0] password derivation utility.
 
 ```bash
 git submodule update --init
+git apply github.diff -C 0
 ```
 
 Open project in XCode and build!

@@ -1,0 +1,118 @@
+diff --git a/DerivePass/DerivePass.xcodeproj/project.pbxproj b/DerivePass/DerivePass.xcodeproj/project.pbxproj
+index 5acacdf..fcdbdc3 100644
+--- a/DerivePass/DerivePass.xcodeproj/project.pbxproj
++++ b/DerivePass/DerivePass.xcodeproj/project.pbxproj
+@@ -11,7 +11,6 @@
+ 		4D02DF001E351F7A0076B2F8 /* ValidationPopOverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02DEFF1E351F7A0076B2F8 /* ValidationPopOverController.m */; };
+ 		4D3F05321E326DDF00CA1C2A /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D3F05311E326DDF00CA1C2A /* Helpers.m */; };
+ 		4D3F053C1E3274E200CA1C2A /* DerivePassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D3F053B1E3274E200CA1C2A /* DerivePassTests.m */; };
+-		4D6349C31E2BFBD10051D4DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D6349C21E2BFBD10051D4DF /* CloudKit.framework */; };
+ 		4D6349D21E2D218F0051D4DF /* DerivePass.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D6349D01E2D218F0051D4DF /* DerivePass.xcdatamodeld */; };
+ 		4D6349DB1E2D2E380051D4DF /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6349DA1E2D2E380051D4DF /* TutorialPageViewController.m */; };
+ 		4D6349DE1E2D2E680051D4DF /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6349DD1E2D2E680051D4DF /* TutorialViewController.m */; };
+@@ -73,7 +72,6 @@
+ 		4D3F053B1E3274E200CA1C2A /* DerivePassTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DerivePassTests.m; sourceTree = "<group>"; };
+ 		4D3F053D1E3274E200CA1C2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+ 		4D6349BD1E2BF1550051D4DF /* DerivePass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DerivePass.entitlements; sourceTree = "<group>"; };
+-		4D6349C21E2BFBD10051D4DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+ 		4D6349D11E2D218F0051D4DF /* DerivePass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DerivePass.xcdatamodel; sourceTree = "<group>"; };
+ 		4D6349D91E2D2E380051D4DF /* TutorialPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPageViewController.h; sourceTree = "<group>"; };
+ 		4D6349DA1E2D2E380051D4DF /* TutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPageViewController.m; sourceTree = "<group>"; };
+@@ -143,7 +141,6 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				4D6349C31E2BFBD10051D4DF /* CloudKit.framework in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -375,7 +372,7 @@
+ 					};
+ 					4D8F97E21E29D9FF0070B586 = {
+ 						CreatedOnToolsVersion = 8.2.1;
+-						DevelopmentTeam = VHWE95VV4E;
++						DevelopmentTeam = AAAAAAAAAA;
+ 						ProvisioningStyle = Automatic;
+ 						SystemCapabilities = {
+ 							com.apple.DataProtection = {
+@@ -384,9 +381,6 @@
+ 							com.apple.Push = {
+ 								enabled = 0;
+ 							};
+-							com.apple.iCloud = {
+-								enabled = 1;
+-							};
+ 						};
+ 					};
+ 				};
+@@ -691,7 +685,7 @@
+ 				CODE_SIGN_ENTITLEMENTS = DerivePass/DerivePass.entitlements;
+ 				CODE_SIGN_IDENTITY = "iPhone Developer";
+ 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+-				DEVELOPMENT_TEAM = VHWE95VV4E;
++				DEVELOPMENT_TEAM = AAAAAAAAAA;
+ 				FRAMEWORK_SEARCH_PATHS = "";
+ 				HEADER_SEARCH_PATHS = (
+ 					../deps/derivepass,
+@@ -701,7 +695,7 @@
+ 				);
+ 				INFOPLIST_FILE = DerivePass/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+-				PRODUCT_BUNDLE_IDENTIFIER = com.indutny.DerivePass;
++				PRODUCT_BUNDLE_IDENTIFIER = com.opensource.DerivePass;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 			};
+ 			name = Debug;
+@@ -713,7 +707,7 @@
+ 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+ 				CODE_SIGN_ENTITLEMENTS = DerivePass/DerivePass.entitlements;
+ 				CODE_SIGN_IDENTITY = "iPhone Developer";
+-				DEVELOPMENT_TEAM = VHWE95VV4E;
++				DEVELOPMENT_TEAM = AAAAAAAAAA;
+ 				FRAMEWORK_SEARCH_PATHS = "";
+ 				HEADER_SEARCH_PATHS = (
+ 					../deps/derivepass,
+@@ -723,7 +717,7 @@
+ 				);
+ 				INFOPLIST_FILE = DerivePass/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+-				PRODUCT_BUNDLE_IDENTIFIER = com.indutny.DerivePass;
++				PRODUCT_BUNDLE_IDENTIFIER = com.opensource.DerivePass;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 			};
+ 			name = Release;
+diff --git a/DerivePass/DerivePass/ApplicationDataController.h b/DerivePass/DerivePass/ApplicationDataController.h
+index d230c8f..f5fbea2 100644
+--- a/DerivePass/DerivePass/ApplicationDataController.h
++++ b/DerivePass/DerivePass/ApplicationDataController.h
+@@ -11,7 +11,7 @@
+ #import <CoreData/CoreData.h>
+ #import <Foundation/Foundation.h>
+ 
+-#define DERIVEPASS_HAS_CLOUDKIT 1
++// #define DERIVEPASS_HAS_CLOUDKIT 1
+ 
+ #import "Application+CoreDataProperties.h"
+ 
+diff --git a/DerivePass/DerivePass/DerivePass.entitlements b/DerivePass/DerivePass/DerivePass.entitlements
+index 3729903..6631ffa 100644
+--- a/DerivePass/DerivePass/DerivePass.entitlements
++++ b/DerivePass/DerivePass/DerivePass.entitlements
+@@ -2,17 +2,5 @@
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0">
+ <dict>
+-	<key>com.apple.developer.default-data-protection</key>
+-	<string>NSFileProtectionComplete</string>
+-	<key>com.apple.developer.icloud-container-identifiers</key>
+-	<array>
+-		<string>iCloud.$(CFBundleIdentifier)</string>
+-	</array>
+-	<key>com.apple.developer.icloud-services</key>
+-	<array>
+-		<string>CloudKit</string>
+-	</array>
+-	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
+-	<string>$(TeamIdentifierPrefix)$(CFBundleIdentifier)</string>
+ </dict>
+ </plist>
