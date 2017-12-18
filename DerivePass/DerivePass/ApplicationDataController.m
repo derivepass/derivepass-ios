@@ -51,48 +51,43 @@
 
 
 - (void)initCoreData {
-  NSURL* modelUrl = [[NSBundle mainBundle] URLForResource:@"DerivePass"
-                                            withExtension:@"momd"];
-  NSManagedObjectModel* model =
-      [[NSManagedObjectModel alloc] initWithContentsOfURL:modelUrl];
+  NSURL* modelUrl = [[NSBundle mainBundle] URLForResource:@"DerivePass" withExtension:@"momd"];
+  NSManagedObjectModel* model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelUrl];
   NSAssert(model != nil, @"Failed to initialize managed object model");
 
   NSPersistentStoreCoordinator* psc =
       [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-  NSManagedObjectContext* ctx = [[NSManagedObjectContext alloc]
-      initWithConcurrencyType:NSMainQueueConcurrencyType];
+  NSManagedObjectContext* ctx =
+      [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
   ctx.persistentStoreCoordinator = psc;
   self.managedObjectContext = ctx;
 
   NSFileManager* fm = [NSFileManager defaultManager];
 
-  NSURL* documentsURL = [[fm URLsForDirectory:NSDocumentDirectory
-                                    inDomains:NSUserDomainMask] lastObject];
-  NSURL* storeURL =
-      [documentsURL URLByAppendingPathComponent:@"Applications.data"];
+  NSURL* documentsURL =
+      [[fm URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+  NSURL* storeURL = [documentsURL URLByAppendingPathComponent:@"Applications.data"];
 
   // Needed to trigger "applicationProtectedDataWillBecomeUnavailable"
   NSError* err = nil;
-  NSPersistentStore* store = [psc
-      addPersistentStoreWithType:NSBinaryStoreType
-                   configuration:nil
-                             URL:storeURL
-                         options:@{
-                           NSFileProtectionKey : NSFileProtectionComplete,
-                           NSMigratePersistentStoresAutomaticallyOption : @YES
-                         }
-                           error:&err];
-  NSAssert(store != nil, @"Failed to initialize PSC: %@\n%@",
-           [err localizedDescription], [err userInfo]);
+  NSPersistentStore* store =
+      [psc addPersistentStoreWithType:NSBinaryStoreType
+                        configuration:nil
+                                  URL:storeURL
+                              options:@{
+                                NSFileProtectionKey : NSFileProtectionComplete,
+                                NSMigratePersistentStoresAutomaticallyOption : @YES
+                              }
+                                error:&err];
+  NSAssert(store != nil, @"Failed to initialize PSC: %@\n%@", [err localizedDescription],
+           [err userInfo]);
 
   NSFetchRequest* request = [Application fetchRequest];
-  request.sortDescriptors =
-      @[ [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES] ];
+  request.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES] ];
 
-  NSArray* res =
-      [self.managedObjectContext executeFetchRequest:request error:&err];
-  NSAssert(res != nil, @"Failed to save CoreData: %@\n%@",
-           [err localizedDescription], [err userInfo]);
+  NSArray* res = [self.managedObjectContext executeFetchRequest:request error:&err];
+  NSAssert(res != nil, @"Failed to save CoreData: %@\n%@", [err localizedDescription],
+           [err userInfo]);
 
   self.internalList = [NSMutableArray arrayWithArray:res];
   for (Application* app in self.internalList) app.cryptor = self.cryptor;
@@ -104,12 +99,10 @@
   self.db = [[CKContainer defaultContainer] privateCloudDatabase];
 
   NSPredicate* every = [NSPredicate predicateWithValue:YES];
-  CKQuery* q = [[CKQuery alloc] initWithRecordType:@"EncryptedApplication"
-                                         predicate:every];
+  CKQuery* q = [[CKQuery alloc] initWithRecordType:@"EncryptedApplication" predicate:every];
   [self.db performQuery:q
            inZoneWithID:nil
-      completionHandler:^(NSArray<CKRecord*>* _Nullable results,
-                          NSError* _Nullable error) {
+      completionHandler:^(NSArray<CKRecord*>* _Nullable results, NSError* _Nullable error) {
         // TODO(indutny): handle error
         if (error != nil) return;
 
@@ -205,46 +198,42 @@
 - (void)uploadItemToCloud:(Application*)obj {
   CKRecordID* recID = [[CKRecordID alloc] initWithRecordName:obj.uuid];
 
-  [self.db
-      fetchRecordWithID:recID
-      completionHandler:^(CKRecord* _Nullable r, NSError* _Nullable error) {
-        if (error.code == CKErrorUnknownItem) {
-          r = [[CKRecord alloc] initWithRecordType:@"EncryptedApplication"
-                                          recordID:recID];
-        } else if (error != nil) {
-          // TODO(indutny): handle errors
-          return;
-        }
+  [self.db fetchRecordWithID:recID
+           completionHandler:^(CKRecord* _Nullable r, NSError* _Nullable error) {
+             if (error.code == CKErrorUnknownItem) {
+               r = [[CKRecord alloc] initWithRecordType:@"EncryptedApplication" recordID:recID];
+             } else if (error != nil) {
+               // TODO(indutny): handle errors
+               return;
+             }
 
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-          // Skip items that are the same
-          if ([r.modificationDate isEqualToDate:obj.changed_at]) return;
+             dispatch_async(dispatch_get_main_queue(), ^(void) {
+               // Skip items that are the same
+               if ([r.modificationDate isEqualToDate:obj.changed_at]) return;
 
-          // Cloud object is newer!
-          if ([r.modificationDate compare:obj.changed_at] ==
-              NSOrderedDescending)
-            return [self updateObject:obj withRecord:r];
+               // Cloud object is newer!
+               if ([r.modificationDate compare:obj.changed_at] == NSOrderedDescending)
+                 return [self updateObject:obj withRecord:r];
 
-          // Copy these as they are, because they are encrypted
-          r[@"domain"] = [obj valueForKey:@"domain"];
-          r[@"login"] = [obj valueForKey:@"login"];
-          r[@"revision"] = [obj valueForKey:@"revision"];
+               // Copy these as they are, because they are encrypted
+               r[@"domain"] = [obj valueForKey:@"domain"];
+               r[@"login"] = [obj valueForKey:@"login"];
+               r[@"revision"] = [obj valueForKey:@"revision"];
 
-          r[@"index"] = [NSNumber numberWithInt:obj.index];
-          r[@"removed"] = [NSNumber numberWithBool:obj.removed];
-          r[@"master"] = obj.master;
+               r[@"index"] = [NSNumber numberWithInt:obj.index];
+               r[@"removed"] = [NSNumber numberWithBool:obj.removed];
+               r[@"master"] = obj.master;
 
-          [self.db saveRecord:r
-              completionHandler:^(CKRecord* _Nullable record,
-                                  NSError* _Nullable error) {
-                // Retry on obvious conflict
-                if (error != nil && error.code == CKErrorServerRecordChanged)
-                  [self uploadItemToCloud:obj];
+               [self.db saveRecord:r
+                   completionHandler:^(CKRecord* _Nullable record, NSError* _Nullable error) {
+                     // Retry on obvious conflict
+                     if (error != nil && error.code == CKErrorServerRecordChanged)
+                       [self uploadItemToCloud:obj];
 
-                // TODO(indutny): handle other errors
-              }];
-        });
-      }];
+                     // TODO(indutny): handle other errors
+                   }];
+             });
+           }];
 }
 #endif  // DERIVEPASS_HAS_CLOUDKIT
 
@@ -252,16 +241,15 @@
 - (NSMutableArray<Application*>*)applications {
   NSMutableArray<Application*>* res = [NSMutableArray array];
   for (Application* obj in self.internalList)
-    if ([obj.master isEqualToString:self.masterHash])
-      [res insertObject:obj atIndex:res.count];
+    if ([obj.master isEqualToString:self.masterHash]) [res insertObject:obj atIndex:res.count];
   return res;
 }
 
 
 - (Application*)allocApplication {
-  Application* res = [NSEntityDescription
-      insertNewObjectForEntityForName:@"Application"
-               inManagedObjectContext:self.managedObjectContext];
+  Application* res =
+      [NSEntityDescription insertNewObjectForEntityForName:@"Application"
+                                    inManagedObjectContext:self.managedObjectContext];
   res.uuid = [[NSUUID UUID] UUIDString];
   res.changed_at = [NSDate date];
   res.master = self.masterHash;
@@ -299,14 +287,12 @@
 
 
 - (void)sort {
-  [self.internalList sortUsingComparator:^NSComparisonResult(id _Nonnull obj1,
-                                                             id _Nonnull obj2) {
+  [self.internalList sortUsingComparator:^NSComparisonResult(id _Nonnull obj1, id _Nonnull obj2) {
     Application* a = obj1;
     Application* b = obj2;
 
-    return a.index < b.index
-               ? NSOrderedAscending
-               : a.index > b.index ? NSOrderedDescending : NSOrderedSame;
+    return a.index < b.index ? NSOrderedAscending
+                             : a.index > b.index ? NSOrderedDescending : NSOrderedSame;
   }];
 }
 
@@ -314,8 +300,8 @@
 - (void)coreDataSave {
   NSError* err = nil;
   [self.managedObjectContext save:&err];
-  NSAssert(err == nil, @"Failed to save CoreData: %@\n%@",
-           [err localizedDescription], [err userInfo]);
+  NSAssert(err == nil, @"Failed to save CoreData: %@\n%@", [err localizedDescription],
+           [err userInfo]);
 }
 
 @end

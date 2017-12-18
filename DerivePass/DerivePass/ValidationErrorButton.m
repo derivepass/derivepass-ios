@@ -30,9 +30,7 @@
   self.viewController = vc;
 
   [self setTitle:@"❗️" forState:UIControlStateNormal];
-  [self addTarget:self
-                action:@selector(onTap:)
-      forControlEvents:UIControlEventTouchUpInside];
+  [self addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
   return self;
 }
 
@@ -55,8 +53,7 @@
   self.popoverController = pc;
 
   UITapGestureRecognizer* gesture =
-      [[UITapGestureRecognizer alloc] initWithTarget:self
-                                              action:@selector(onPopOverTap:)];
+      [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onPopOverTap:)];
   [vc.view addGestureRecognizer:gesture];
 
   [self.viewController presentViewController:vc animated:YES completion:nil];
@@ -70,9 +67,8 @@
 
 
 - (void)onPopOverTap:(UITapGestureRecognizer*)gesture {
-  [self.popoverController.presentingViewController
-      dismissViewControllerAnimated:YES
-                         completion:nil];
+  [self.popoverController.presentingViewController dismissViewControllerAnimated:YES
+                                                                      completion:nil];
 }
 
 @end

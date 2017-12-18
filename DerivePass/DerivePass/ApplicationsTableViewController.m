@@ -30,8 +30,7 @@
 
   self.iconCopy = [UIImage imageNamed:@"Copy"];
 
-  self.navigationItem.rightBarButtonItems =
-      @[ self.addButtonItem, self.editButtonItem ];
+  self.navigationItem.rightBarButtonItems = @[ self.addButtonItem, self.editButtonItem ];
 
   self.dataController.delegate = self;
 
@@ -61,8 +60,7 @@
   if (editing) {
     self.navigationItem.rightBarButtonItems = @[ self.editButtonItem ];
   } else {
-    self.navigationItem.rightBarButtonItems =
-        @[ self.addButtonItem, self.editButtonItem ];
+    self.navigationItem.rightBarButtonItems = @[ self.addButtonItem, self.editButtonItem ];
   }
 }
 
@@ -83,8 +81,7 @@
   return 1;
 }
 
-- (NSInteger)tableView:(UITableView*)tableView
-    numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
   return self.applications.count;
 }
 
@@ -92,8 +89,7 @@
 - (UITableViewCell*)tableView:(UITableView*)tableView
         cellForRowAtIndexPath:(NSIndexPath*)indexPath {
   UITableViewCell* cell =
-      [tableView dequeueReusableCellWithIdentifier:@"ApplicationCell"
-                                      forIndexPath:indexPath];
+      [tableView dequeueReusableCellWithIdentifier:@"ApplicationCell" forIndexPath:indexPath];
 
   Application* info = self.applications[indexPath.row];
 
@@ -146,13 +142,11 @@
 }
 
 
-- (void)tableView:(UITableView*)tableView
-    didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   if (tableView.isEditing) return;
 
-  __block ApplicationTableViewCell* cell =
-      [self.tableView cellForRowAtIndexPath:indexPath];
+  __block ApplicationTableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
   Application* info = self.applications[indexPath.row];
 
   self.view.userInteractionEnabled = NO;
@@ -164,12 +158,18 @@
 
   void (^completion)(NSString*) = ^(NSString* password) {
     UIPasteboard* pasteboard = [UIPasteboard generalPasteboard];
-    pasteboard.string = password;
+    NSDate* expiration = [NSDate dateWithTimeIntervalSinceNow:60.0];
 
-    __block UIAlertController* alert = [UIAlertController
-        alertControllerWithTitle:@""
-                         message:@"Password copied to clipboard"
-                  preferredStyle:UIAlertControllerStyleAlert];
+    [pasteboard setItems:@[ @{UIPasteboardTypeAutomatic : password} ]
+                 options:@{
+                   UIPasteboardOptionLocalOnly : @NO,
+                   UIPasteboardOptionExpirationDate : expiration
+                 }];
+
+    __block UIAlertController* alert =
+        [UIAlertController alertControllerWithTitle:@""
+                                            message:@"Password copied to clipboard"
+                                     preferredStyle:UIAlertControllerStyleAlert];
     [self presentViewController:alert
                        animated:YES
                      completion:^{

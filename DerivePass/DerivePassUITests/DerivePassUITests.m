@@ -38,16 +38,14 @@ static const int kApplicationCount = 3;
 
   // Enter master password
   XCUIApplication* app = [[XCUIApplication alloc] init];
-  XCUIElement* masterPasswordSecureTextField =
-      app.secureTextFields[@"Master Password"];
+  XCUIElement* masterPasswordSecureTextField = app.secureTextFields[@"Master Password"];
   [masterPasswordSecureTextField tap];
   [masterPasswordSecureTextField typeText:master];
 
   XCUIElement* doneButton = app.buttons[@"Done"];
   [doneButton tap];
 
-  XCUIElement* confirmPasswordSecureTextField =
-      app.secureTextFields[@"Confirm Password"];
+  XCUIElement* confirmPasswordSecureTextField = app.secureTextFields[@"Confirm Password"];
   [confirmPasswordSecureTextField typeText:master];
   [doneButton tap];
 
@@ -57,32 +55,26 @@ static const int kApplicationCount = 3;
   NSPredicate* exists = [NSPredicate predicateWithFormat:@"exists == 1"];
   // Create several applications with different domain name
   for (int i = 0; i < kApplicationCount; i++) {
-    XCUIElement* addButton =
-        app.navigationBars[@"Applications"].buttons[@"Add"];
+    XCUIElement* addButton = app.navigationBars[@"Applications"].buttons[@"Add"];
 
-    [self expectationForPredicate:exists
-              evaluatedWithObject:addButton
-                          handler:nil];
+    [self expectationForPredicate:exists evaluatedWithObject:addButton handler:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
 
     [addButton tap];
 
-    elem = [[tablesQuery.cells containingType:XCUIElementTypeStaticText
-                                   identifier:@"Domain"]
+    elem = [[tablesQuery.cells containingType:XCUIElementTypeStaticText identifier:@"Domain"]
                childrenMatchingType:XCUIElementTypeTextField]
                .element;
     [elem tap];
     [elem typeText:[NSString stringWithFormat:@"%d-test.com", i]];
 
-    elem = [[tablesQuery.cells containingType:XCUIElementTypeStaticText
-                                   identifier:@"Login"]
+    elem = [[tablesQuery.cells containingType:XCUIElementTypeStaticText identifier:@"Login"]
                childrenMatchingType:XCUIElementTypeTextField]
                .element;
     [elem tap];
     [elem typeText:@"example"];
 
-    elem = [[tablesQuery.cells containingType:XCUIElementTypeStaticText
-                                   identifier:@"Revision"]
+    elem = [[tablesQuery.cells containingType:XCUIElementTypeStaticText identifier:@"Revision"]
                childrenMatchingType:XCUIElementTypeTextField]
                .element;
     [elem tap];
@@ -95,24 +87,18 @@ static const int kApplicationCount = 3;
   NSPredicate* notExists = [NSPredicate predicateWithFormat:@"exists == 0"];
   for (int i = 0; i < kApplicationCount; i++) {
     // Notification should flash and be gone
-    XCUIElement* notification =
-        app.staticTexts[@"Password copied to clipboard"];
-    [self expectationForPredicate:exists
-              evaluatedWithObject:notification
-                          handler:nil];
+    XCUIElement* notification = app.staticTexts[@"Password copied to clipboard"];
+    [self expectationForPredicate:exists evaluatedWithObject:notification handler:nil];
 
     // ...on tap
-    elem = [tablesQuery.cells
-               containingType:XCUIElementTypeStaticText
-                   identifier:[NSString stringWithFormat:@"%d-test.com", i]]
+    elem = [tablesQuery.cells containingType:XCUIElementTypeStaticText
+                                  identifier:[NSString stringWithFormat:@"%d-test.com", i]]
                .element;
     [elem tap];
 
     // Let's wait
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    [self expectationForPredicate:notExists
-              evaluatedWithObject:notification
-                          handler:nil];
+    [self expectationForPredicate:notExists evaluatedWithObject:notification handler:nil];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
 
 
@@ -126,17 +112,15 @@ static const int kApplicationCount = 3;
     NSString* domain = [NSString stringWithFormat:@"%d-test.com/example#13", i];
 
     NSString* expected =
-        [NSString stringWithUTF8String:derive(&state, master.UTF8String,
-                                              domain.UTF8String)];
+        [NSString stringWithUTF8String:derive(&state, master.UTF8String, domain.UTF8String)];
 
     NSString* password = [UIPasteboard generalPasteboard].string;
     XCTAssertEqualObjects(password, expected);
   }
 
   // Get back to the main menu
-  [[[[app.navigationBars[@"Applications"]
-      childrenMatchingType:XCUIElementTypeButton] matchingIdentifier:@"Back"]
-      elementBoundByIndex:0] tap];
+  [[[[app.navigationBars[@"Applications"] childrenMatchingType:XCUIElementTypeButton]
+      matchingIdentifier:@"Back"] elementBoundByIndex:0] tap];
 
   // Type master password again (this time once)
   [masterPasswordSecureTextField typeText:master];

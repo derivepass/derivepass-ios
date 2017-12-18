@@ -36,8 +36,7 @@
 
   self.domainField.text = self.info.plaintextDomain;
   self.loginField.text = self.info.plaintextLogin;
-  self.revisionField.text =
-      [NSString stringWithFormat:@"%d", self.info.plainRevision];
+  self.revisionField.text = [NSString stringWithFormat:@"%d", self.info.plainRevision];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,8 +72,7 @@ static BOOL check_is_number(NSString* v, NSString** msg) {
 - (IBAction)onSave:(id)sender {
   BOOL valid = YES;
 
-  UITextField* fields[] = {self.domainField, self.loginField,
-                           self.revisionField};
+  UITextField* fields[] = {self.domainField, self.loginField, self.revisionField};
   BOOL(*verifiers[])
   (NSString*, NSString**) = {check_non_empty, check_non_empty, check_is_number};
 
@@ -88,8 +86,8 @@ static BOOL check_is_number(NSString* v, NSString** msg) {
     if (verifiers[i](field.text, &msg)) continue;
 
     valid = NO;
-    field.rightView = [[ValidationErrorButton alloc] initWithMessage:msg
-                                             andParentViewController:self];
+    field.rightView =
+        [[ValidationErrorButton alloc] initWithMessage:msg andParentViewController:self];
     field.rightViewMode = UITextFieldViewModeAlways;
   }
 

@@ -46,32 +46,25 @@
     ],
     @[ @"Increment revision\nif you need a new password" ],
     @[
-      @"Tap application row\nto copy password",
-      @"Passwords are computed\non the fly",
+      @"Tap application row\nto copy password", @"Passwords are computed\non the fly",
       @"No password is stored\nin the cloud",
       @"We store just\nAES-256 encrypted\napplication info\nand emojis"
     ]
   };
-  static NSString *kImages[] = {
-    @"tutorial-1.png",
-    @"tutorial-2.png",
-    @"tutorial-3.png",
-    @"tutorial-4.png",
-    @"tutorial-5.png"
-  };
-  NSAssert(ARRAY_SIZE(kTexts) == ARRAY_SIZE(kImages),
-           @"Mismatch in count of images/texts");
+  static NSString *kImages[] = {@"tutorial-1.png", @"tutorial-2.png", @"tutorial-3.png",
+                                @"tutorial-4.png", @"tutorial-5.png"};
+  NSAssert(ARRAY_SIZE(kTexts) == ARRAY_SIZE(kImages), @"Mismatch in count of images/texts");
 
   for (unsigned int i = 0; i < ARRAY_SIZE(kTexts); i++) {
-    TutorialViewController *t = [self.storyboard
-        instantiateViewControllerWithIdentifier:@"TutorialPage"];
+    TutorialViewController *t =
+        [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialPage"];
     t.texts = kTexts[i];
     if (kImages[i] != nil) t.image = [UIImage imageNamed:kImages[i]];
     [self.pages addObject:t];
   }
 
-  TutorialFinalViewController * final = [self.storyboard
-      instantiateViewControllerWithIdentifier:@"TutorialFinalPage"];
+  TutorialFinalViewController *final =
+      [self.storyboard instantiateViewControllerWithIdentifier:@"TutorialFinalPage"];
   final.delegate = self;
   [self.pages addObject:final];
 
@@ -96,8 +89,7 @@
 }
 
 
-- (UIViewController *)pageViewController:
-                          (UIPageViewController *)pageViewController
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
       viewControllerBeforeViewController:(UIViewController *)viewController {
   NSUInteger index = [self.pages indexOfObject:viewController];
   if (index < 1) return nil;
@@ -105,8 +97,7 @@
 }
 
 
-- (UIViewController *)pageViewController:
-                          (UIPageViewController *)pageViewController
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
        viewControllerAfterViewController:(UIViewController *)viewController {
   NSUInteger index = [self.pages indexOfObject:viewController];
   if (index + 1 == self.pages.count) return nil;
@@ -114,14 +105,12 @@
 }
 
 
-- (NSInteger)presentationCountForPageViewController:
-    (UIPageViewController *)pageViewController {
+- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
   return (NSInteger)self.pages.count;
 }
 
 
-- (NSInteger)presentationIndexForPageViewController:
-    (UIPageViewController *)pageViewController {
+- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
   return 0;
 }
 

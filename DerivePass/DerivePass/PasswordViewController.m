@@ -121,8 +121,7 @@ static NSString* const kConfirmPlaceholder = @"Confirm Password";
 
 
 - (void)computeAESKey:(void (^)(NSData* aes, NSData* mac))completion {
-  dispatch_queue_t queue =
-      dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+  dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
   __block NSString* origin = self.masterPassword.text;
 
@@ -166,10 +165,8 @@ static NSString* const kConfirmPlaceholder = @"Confirm Password";
       [a setDuration:0.1];
       [a setRepeatCount:2];
       [a setAutoreverses:YES];
-      [a setFromValue:[NSValue valueWithCGPoint:CGPointMake(f.center.x - 5,
-                                                            f.center.y)]];
-      [a setToValue:[NSValue valueWithCGPoint:CGPointMake(f.center.x + 5,
-                                                          f.center.y)]];
+      [a setFromValue:[NSValue valueWithCGPoint:CGPointMake(f.center.x - 5, f.center.y)]];
+      [a setToValue:[NSValue valueWithCGPoint:CGPointMake(f.center.x + 5, f.center.y)]];
       [f.layer addAnimation:a forKey:@"position"];
       return;
     }
@@ -266,9 +263,8 @@ static NSString* const kConfirmPlaceholder = @"Confirm Password";
   conf.text = kDefaultEmoji;
   [UIView animateWithDuration:0.3
                    animations:^() {
-                     conf.center = CGPointMake(
-                         conf.center.x,
-                         conf.center.y + conf.frame.size.height * 1.2);
+                     conf.center =
+                         CGPointMake(conf.center.x, conf.center.y + conf.frame.size.height * 1.2);
                      conf.alpha = 1.0;
                    }];
 }

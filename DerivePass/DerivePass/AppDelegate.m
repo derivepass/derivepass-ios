@@ -67,10 +67,8 @@
 }
 
 
-- (void)applicationProtectedDataWillBecomeUnavailable:
-    (UIApplication *)application {
-  UINavigationController *nav =
-      (UINavigationController *)self.window.rootViewController;
+- (void)applicationProtectedDataWillBecomeUnavailable:(UIApplication *)application {
+  UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
   [nav popToRootViewControllerAnimated:YES];
 
   UIViewController *top = nav.topViewController;

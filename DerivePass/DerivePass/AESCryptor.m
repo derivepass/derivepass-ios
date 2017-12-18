@@ -56,8 +56,7 @@ typedef enum { kAESCryptorV0, kAESCryptorV1 } AESCryptorDataVersion;
     char l = bytes[i + 1];
 
     BOOL err = NO;
-    o[i / 2] = ([self hexDigit:h withError:&err] << 4) |
-               [self hexDigit:l withError:&err];
+    o[i / 2] = ([self hexDigit:h withError:&err] << 4) | [self hexDigit:l withError:&err];
     if (err) {
       NSLog(@"Invalid HEX digit");
       return nil;
@@ -81,11 +80,8 @@ typedef enum { kAESCryptorV0, kAESCryptorV1 } AESCryptorDataVersion;
 }
 
 
-- (void)hmac:(NSData*)data
-        withLength:(NSUInteger)len
-    andDestination:(void*)res {
-  CCHmac(kCCHmacAlgSHA256, self.MACKey.bytes, self.MACKey.length, data.bytes,
-         len, res);
+- (void)hmac:(NSData*)data withLength:(NSUInteger)len andDestination:(void*)res {
+  CCHmac(kCCHmacAlgSHA256, self.MACKey.bytes, self.MACKey.length, data.bytes, len, res);
 }
 
 
@@ -93,8 +89,8 @@ typedef enum { kAESCryptorV0, kAESCryptorV1 } AESCryptorDataVersion;
   NSAssert(self.AESKey.length == kCryptorKeySize, @"Invalid AES key length");
 
   // [iv] [string] [some possible alignment and padding] [digest]
-  NSMutableData* res = [NSMutableData
-      dataWithLength:kAESIVSize + str.length + kCCBlockSizeAES128 + kMACSize];
+  NSMutableData* res =
+      [NSMutableData dataWithLength:kAESIVSize + str.length + kCCBlockSizeAES128 + kMACSize];
   NSAssert(res != nil, @"Failed to allocated mutable output for encrypt");
 
   void* iv = res.mutableBytes;
@@ -110,9 +106,9 @@ typedef enum { kAESCryptorV0, kAESCryptorV1 } AESCryptorDataVersion;
 
   size_t bytes;
   CCCryptorStatus st;
-  st = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
-               self.AESKey.bytes, self.AESKey.length, iv, (void*)str.UTF8String,
-               str.length, content, content_len, &bytes);
+  st = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, self.AESKey.bytes,
+               self.AESKey.length, iv, (void*)str.UTF8String, str.length, content, content_len,
+               &bytes);
   NSAssert(st == kCCSuccess, @"CCCrypt encrypt failure");
 
   // Encrypt-then-MAC
@@ -138,17 +134,13 @@ typedef enum { kAESCryptorV0, kAESCryptorV1 } AESCryptorDataVersion;
       return kDecryptFailureString;
     }
 
-    NSData* head =
-        [data subdataWithRange:NSMakeRange(0, data.length - kMACSize)];
-    NSData* digest = [data
-        subdataWithRange:NSMakeRange(head.length, data.length - head.length)];
+    NSData* head = [data subdataWithRange:NSMakeRange(0, data.length - kMACSize)];
+    NSData* digest = [data subdataWithRange:NSMakeRange(head.length, data.length - head.length)];
     data = head;
 
     NSMutableData* actualDigest = [NSMutableData dataWithLength:kMACSize];
 
-    [self hmac:data
-            withLength:data.length
-        andDestination:actualDigest.mutableBytes];
+    [self hmac:data withLength:data.length andDestination:actualDigest.mutableBytes];
     if (digest != nil && ![actualDigest isEqualToData:digest]) {
       NSLog(@"Failed to decrypt data, digest mismatch");
       return kDecryptFailureString;
@@ -169,9 +161,8 @@ typedef enum { kAESCryptorV0, kAESCryptorV1 } AESCryptorDataVersion;
 
   size_t bytes;
   CCCryptorStatus err;
-  err = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
-                self.AESKey.bytes, self.AESKey.length, iv, content, content_len,
-                res.mutableBytes, res.length, &bytes);
+  err = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, self.AESKey.bytes,
+                self.AESKey.length, iv, content, content_len, res.mutableBytes, res.length, &bytes);
   if (err != kCCSuccess) {
     NSLog(@"Failed to decrypt data, err=%d", err);
     return kDecryptFailureString;
